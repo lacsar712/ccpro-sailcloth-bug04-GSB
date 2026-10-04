@@ -184,7 +184,7 @@ onMounted(load)
           <span class="feed-loft">{{ row.loftName }}</span>
           <span>{{ new Date(row.startedAt).toLocaleString() }}</span>
           <span>树脂 {{ row.resinPct }}%</span>
-          <span>固化 {{ row.resinPct ?? '—' }} h</span>
+          <span>固化 {{ row.cureHours ?? '—' }} h</span>
         </li>
       </ul>
       <p v-else class="hint" style="margin:0">暂无浸渍记录</p>
@@ -263,7 +263,7 @@ onMounted(load)
           <li v-for="row in selectedDips" :key="row.id">
             <span>{{ new Date(row.startedAt).toLocaleString() }}</span>
             <span>{{ row.resinPct }}%</span>
-            <span>{{ row.resinPct ?? '—' }} h</span>
+            <span>{{ row.cureHours ?? '—' }} h</span>
           </li>
         </ul>
         <p v-else class="hint" style="margin:0">本卷尚无浸渍</p>
