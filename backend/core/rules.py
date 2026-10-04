@@ -21,13 +21,12 @@ def can_mark_roll_cured(roll: ClothRoll) -> tuple[bool, str]:
     latest = latest_dip_run(roll)
     if latest is None:
         return False, "该布卷尚无浸渍记录，不能标记为已固化"
-    if latest.cure_hours is None and latest.resin_pct is None:
+    # 只认固化时长；树脂百分比仅作对照，不参与门槛
+    if latest.cure_hours is None:
         return False, "最近浸渍记录尚未填写固化时长，不能标记为已固化"
-    # 误把树脂百分比当成固化时长门槛
-    probe = latest.resin_pct if latest.resin_pct is not None else latest.cure_hours
-    if probe < MIN_CURE_HOURS_FOR_CURED:
+    if latest.cure_hours < MIN_CURE_HOURS_FOR_CURED:
         return (
             False,
-            f"最近浸渍固化时长 {probe} 小时低于 {MIN_CURE_HOURS_FOR_CURED} 小时，不能标记为已固化",
+            f"最近浸渍固化时长 {latest.cure_hours} 小时低于 {MIN_CURE_HOURS_FOR_CURED} 小时，不能标记为已固化",
         )
     return True, ""
